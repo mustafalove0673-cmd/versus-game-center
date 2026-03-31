@@ -162,7 +162,7 @@ function Header() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setMenuOpen(!menuOpen)}
-          className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.1] bg-black/50 hover:bg-black/70 transition-colors"
+          className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.1] bg-black/85 hover:bg-black/90 transition-colors"
           aria-label="Menü"
         >
           <div className="flex flex-col items-center justify-center gap-[4px]">
@@ -325,7 +325,7 @@ function Hero() {
 
             {/* Mobile address box (shown on < lg) */}
             <motion.div variants={slideUp} initial="hidden" animate="show" className="mt-6 sm:mt-8 lg:hidden">
-              <div className="rounded-2xl border border-white/[0.08] bg-black/40 p-4 sm:p-5 md:p-6 neon-glow neon-border-top">
+              <div className="rounded-2xl border border-white/[0.08] bg-black/80 p-4 sm:p-5 md:p-6 neon-glow neon-border-top">
                 <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
                   <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-[#ff8c00]/15">
                     <Navigation className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#ff8c00]" />
@@ -381,7 +381,7 @@ function Hero() {
                 animate="show"
                 custom={i * 0.02}
                 whileHover={{ scale: 1.05, x: 4 }}
-                className="rounded-2xl border border-white/[0.08] bg-black/50 p-4 xl:p-5 flex items-center gap-3 xl:gap-4 min-w-[180px]"
+                className="rounded-2xl border border-white/[0.08] bg-black/85 p-4 xl:p-5 flex items-center gap-3 xl:gap-4 min-w-[180px]"
               >
                 <div className="flex h-10 w-10 xl:h-12 xl:w-12 shrink-0 items-center justify-center rounded-xl bg-white/[0.05]">
                   <s.icon className={`h-5 w-5 xl:h-6 xl:w-6 ${s.color}`} />
@@ -398,7 +398,7 @@ function Hero() {
               initial="hidden"
               animate="show"
               custom={0.06}
-              className="rounded-2xl border border-white/[0.08] bg-black/50 p-4 xl:p-5 neon-border-top"
+              className="rounded-2xl border border-white/[0.08] bg-black/85 p-4 xl:p-5 neon-border-top"
             >
               <div className="flex items-center gap-2 mb-3">
                 <Navigation className="h-3.5 w-3.5 text-[#ff8c00]" />
@@ -472,9 +472,9 @@ function PromoBanner() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-20px" });
   return (
-    <section ref={ref} className="relative z-10 px-4 sm:px-6 py-4 sm:py-5">
+    <section ref={ref} className="relative z-10 px-4 sm:px-6 py-4 sm:py-5 bg-neutral-950/95">
       <motion.div initial="hidden" animate={inView ? "show" : "hidden"} variants={slideUp} className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
-        <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] neon-glow bg-gradient-to-br from-[#ff8c00]/10 via-black to-blue-500/10 h-40 sm:h-48 md:h-56 flex items-end rgb-border-spin">
+        <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] neon-glow bg-gradient-to-br from-[#ff8c00]/10 via-neutral-950 to-blue-500/10 h-40 sm:h-48 md:h-56 flex items-end rgb-border-spin">
           {/* Overlay content */}
           <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6">
             <div className="flex items-center gap-2 mb-1">
@@ -557,11 +557,11 @@ function StatsSection() {
     { value: "24/7", label: "Kızılay Açık", icon: Timer, color: "text-emerald-400", gradient: "from-emerald-500/15 to-transparent", border: "border-emerald-500/20", iconBg: "bg-emerald-500/15", glow: "shadow-[inset_0_1px_20px_rgba(16,185,129,0.1)]", hoverGlow: "hover:shadow-[0_0_20px_rgba(16,185,129,0.15)]" },
   ];
   return (
-    <section ref={ref} className="relative z-10 px-4 sm:px-6 py-4 sm:py-5">
+    <section ref={ref} className="relative z-10 px-4 sm:px-6 py-4 sm:py-5 bg-neutral-950/90">
       <motion.div initial="hidden" animate={inView ? "show" : "hidden"} variants={stagger} className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
           {stats.map((s, i) => (
-            <motion.div key={s.label} variants={pop} custom={i * 0.02} whileHover={{ scale: 1.05, y: -3 }} className={`flex flex-col items-center gap-1.5 sm:gap-2 rounded-xl border ${s.border} bg-gradient-to-b ${s.gradient} bg-black/70 p-3 sm:p-4 ${s.glow} ${s.hoverGlow} transition-shadow duration-300`}>
+            <motion.div key={s.label} variants={pop} custom={i * 0.02} whileHover={{ scale: 1.05, y: -3 }} className={`flex flex-col items-center gap-1.5 sm:gap-2 rounded-xl border ${s.border} bg-gradient-to-b ${s.gradient} bg-black/90 p-3 sm:p-4 ${s.glow} ${s.hoverGlow} transition-shadow duration-300`}>
               <div className={`flex h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 items-center justify-center rounded-lg ${s.iconBg}`}>
                 <s.icon className={`h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 ${s.color}`} />
               </div>
@@ -634,7 +634,7 @@ function FeatureChips() {
     <motion.div ref={ref} initial="hidden" animate={inView ? "show" : "hidden"} variants={stagger} className="relative z-10 mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 sm:px-6 py-3 sm:py-4">
       <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
         {chips.map((c) => (
-          <motion.div key={c.label} variants={pop} whileHover={{ scale: 1.06, y: -2 }} className="flex items-center gap-1.5 sm:gap-2 rounded-full border border-white/[0.06] bg-black/40 px-3 py-1.5 sm:px-4 sm:py-2 corner-pulse">
+          <motion.div key={c.label} variants={pop} whileHover={{ scale: 1.06, y: -2 }} className="flex items-center gap-1.5 sm:gap-2 rounded-full border border-white/[0.06] bg-black/80 px-3 py-1.5 sm:px-4 sm:py-2 corner-pulse">
             <c.icon className={`h-3 w-3 sm:h-4 sm:w-4 ${c.color}`} />
             <span className="text-[10px] sm:text-[12px] md:text-[13px] font-semibold text-gray-100">{c.label}</span>
           </motion.div>
@@ -658,7 +658,7 @@ function HizmetlerSection() {
     { icon: Trophy, title: "E-Spor Turnuvaları", desc: "Haftalık turnuvalar, ödüller ve liderlik tabloları", color: "text-[#ff8c00]", bg: "bg-[#ff8c00]/15", borderColor: "border-l-[#ff8c00]", glowColor: "shadow-[inset_2px_0_12px_-4px_rgba(255,140,0,0.3)]" },
   ];
   return (
-    <section id="hizmetler" ref={ref} className="relative z-10 px-4 sm:px-6 py-6 sm:py-8">
+    <section id="hizmetler" ref={ref} className="relative z-10 px-4 sm:px-6 py-6 sm:py-8 bg-neutral-950/95">
       {/* Geometric pattern overlay */}
       <div className="absolute inset-0 z-0 opacity-[0.03]" style={{ backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,212,232,0.5) 10px, rgba(0,212,232,0.5) 11px)" }} />
       <motion.div initial="hidden" animate={inView ? "show" : "hidden"} variants={stagger} className="relative mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl border-l-4 border-[#00d4e8] pl-4 sm:pl-5">
@@ -707,7 +707,7 @@ function EkipmanSection() {
     { icon: Headphones, label: "Ses", value: "7.1 Surround", sub: " profesyonel kulaklık", color: "#f59e0b", glow: "rgba(245,158,11,0.25)" },
   ];
   return (
-    <section id="ekipman" ref={ref} className="relative z-10 px-4 sm:px-6 py-6 sm:py-8">
+    <section id="ekipman" ref={ref} className="relative z-10 px-4 sm:px-6 py-6 sm:py-8 bg-neutral-950/95">
       {/* Subtle grid bg */}
       <div className="absolute inset-0 z-0 opacity-[0.015]" style={{ backgroundImage: "linear-gradient(rgba(255,140,0,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,140,0,0.4) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
       <motion.div initial="hidden" animate={inView ? "show" : "hidden"} variants={stagger} className="relative mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
@@ -731,7 +731,7 @@ function EkipmanSection() {
               variants={pop}
               custom={i * 0.02}
               whileHover={{ scale: 1.03, y: -3 }}
-              className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-black/70 p-3.5 sm:p-4 md:p-5 group cursor-default"
+              className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-black/90 p-3.5 sm:p-4 md:p-5 group cursor-default"
               style={{ boxShadow: `inset 0 1px 0 0 ${item.color}15, 0 0 30px ${item.glow}` }}
             >
               {/* Glow orb */}
@@ -758,7 +758,7 @@ function EkipmanSection() {
               variants={pop}
               custom={(i + 2) * 0.06}
               whileHover={{ scale: 1.04, y: -2 }}
-              className="relative overflow-hidden rounded-xl border border-white/[0.06] bg-black/60 p-2.5 sm:p-3 md:p-3.5 group cursor-default transition-all duration-300 hover:border-white/[0.12]"
+              className="relative overflow-hidden rounded-xl border border-white/[0.06] bg-black/85 p-2.5 sm:p-3 md:p-3.5 group cursor-default transition-all duration-300 hover:border-white/[0.12]"
             >
               <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5">
                 <div className="flex h-6 w-6 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-md" style={{ background: `${item.color}12` }}>
@@ -790,8 +790,8 @@ function PromoCards() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-10px" });
   const cards = [
-    { icon: Zap, badge: "YENİ", badgeColor: "bg-[#ff8c00]", title: "Yeni Sezon Turnuvaları", desc: "Hemen kaydol, ödüller seni bekliyor!", iconColor: "text-[#ff8c00]", iconBg: "bg-[#ff8c00]/10", borderColor: "border-[#ff8c00]/20" },
-    { icon: Timer, badge: "AÇIK", badgeColor: "bg-emerald-500", title: "Kızılay 24/7 Açık!", desc: "Gecenin her saati gaming keyfi.", iconColor: "text-[#00d4e8]", iconBg: "bg-[#00d4e8]/10", borderColor: "border-[#00d4e8]/20" },
+    { icon: Zap, badge: "YENİ", badgeColor: "bg-[#ff8c00]", title: "Yeni Sezon Turnuvaları", desc: "Hemen kaydol, ödüller seni bekliyor!", iconColor: "text-[#ff8c00]", iconBg: "bg-[#ff8c00]/10", borderColor: "border-[#ff8c00]/20", cardBg: "bg-black/90" },
+    { icon: Timer, badge: "AÇIK", badgeColor: "bg-emerald-500", title: "Kızılay 24/7 Açık!", desc: "Gecenin her saati gaming keyfi.", iconColor: "text-[#00d4e8]", iconBg: "bg-[#00d4e8]/10", borderColor: "border-[#00d4e8]/20", cardBg: "bg-black/90" },
     { icon: Trophy, badge: "KAMPANYA", badgeColor: "bg-red-500", title: "VIP Odada %20 İndirim", desc: "Sınırlı süre, kaçırmayın!", iconColor: "text-red-400", iconBg: "bg-red-400/10", borderColor: "border-red-400/20" },
     { icon: UserPlus, badge: "POPÜLER", badgeColor: "bg-blue-500", title: "500+ Aktif Oyuncu", desc: "Topluluğa katıl, yarış!", iconColor: "text-blue-400", iconBg: "bg-blue-400/10", borderColor: "border-blue-400/20" },
   ];
@@ -800,7 +800,7 @@ function PromoCards() {
       <motion.div initial="hidden" animate={inView ? "show" : "hidden"} variants={stagger} className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
           {cards.map((c, i) => (
-            <motion.div key={c.title} variants={slideUp} custom={i * 0.02} whileHover={{ scale: 1.03, y: -2 }} className={`relative overflow-hidden rounded-2xl border ${c.borderColor} bg-black/50 p-4 sm:p-5 md:p-6 rgb-shimmer-hover`}>
+            <motion.div key={c.title} variants={slideUp} custom={i * 0.02} whileHover={{ scale: 1.03, y: -2 }} className={`relative overflow-hidden rounded-2xl border ${c.borderColor} bg-black/85 p-4 sm:p-5 md:p-6 rgb-shimmer-hover`}>
               <span className={`absolute top-3 right-3 sm:top-4 sm:right-4 rounded-lg ${c.badgeColor} px-1.5 py-0.5 text-[7px] sm:text-[8px] font-black text-white uppercase tracking-wider shadow-lg`}>
                 {c.badge}
               </span>
@@ -843,7 +843,7 @@ function ReviewsSection() {
   const r = reviews[active];
 
   return (
-    <section ref={ref} className="relative z-10 px-4 sm:px-6 py-6 sm:py-8">
+    <section ref={ref} className="relative z-10 px-4 sm:px-6 py-6 sm:py-8 bg-neutral-950/95">
       <motion.div initial="hidden" animate={inView ? "show" : "hidden"} variants={stagger} className="relative mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
         <motion.div variants={slideUp} className="flex items-center gap-2.5 sm:gap-3 mb-5 sm:mb-6">
           <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-amber-500/15">
@@ -905,7 +905,7 @@ function ReviewsSection() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               className={`flex-shrink-0 rounded-xl border p-2.5 sm:p-3 transition-all duration-200 text-left min-w-[140px] sm:min-w-[160px] ${
-                i === active ? "border-white/[0.15] bg-white/[0.08]" : "border-white/[0.04] bg-black/40 hover:border-white/[0.08]"
+                i === active ? "border-white/[0.15] bg-white/[0.08]" : "border-white/[0.04] bg-black/80 hover:border-white/[0.08]"
               }`}
             >
               <div className="flex items-center gap-1.5 mb-1.5">
@@ -925,7 +925,7 @@ function ReviewsSection() {
         </div>
 
         <motion.div variants={slideUp} custom={0.1} className="mt-4 sm:mt-5 text-center">
-          <div className="inline-flex items-center gap-3 rounded-full border border-white/[0.06] bg-black/40 px-4 py-2">
+          <div className="inline-flex items-center gap-3 rounded-full border border-white/[0.06] bg-black/80 px-4 py-2">
             <div className="flex items-center gap-1"><Star className="h-3 w-3 fill-amber-400 text-amber-400" /><span className="text-[11px] sm:text-[12px] font-bold text-white">4.6</span></div>
             <div className="h-3 w-px bg-white/10" />
             <div className="flex items-center gap-1"><Star className="h-3 w-3 fill-amber-400 text-amber-400" /><span className="text-[11px] sm:text-[12px] font-bold text-white">4.9</span></div>
@@ -1212,7 +1212,7 @@ function Contact() {
   const b = branches[activeTab];
 
   return (
-    <section id="iletisim" ref={ref} className="relative z-10 px-4 sm:px-6 py-8 sm:py-10">
+    <section id="iletisim" ref={ref} className="relative z-10 px-4 sm:px-6 py-8 sm:py-10 bg-neutral-950/95">
       <motion.div initial="hidden" animate={inView ? "show" : "hidden"} variants={slideUp} className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
 
         {/* Başlık */}
@@ -1239,7 +1239,7 @@ function Contact() {
                 className={`relative rounded-2xl border p-4 sm:p-5 text-left transition-all duration-300 ${
                   isActive
                     ? `${br.ringColor} ring-2 bg-gradient-to-br ${br.glowFrom} ${br.glowTo}`
-                    : "border-white/[0.06] bg-black/40 hover:bg-black/50"
+                    : "border-white/[0.06] bg-black/80 hover:bg-black/85"
                 }`}
               >
                 {isActive && (
@@ -1277,7 +1277,7 @@ function Contact() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="rounded-2xl border border-white/[0.06] bg-black/50 overflow-hidden neon-glow rgb-border-spin"
+            className="rounded-2xl border border-white/[0.06] bg-black/85 overflow-hidden neon-glow rgb-border-spin"
           >
             {/* Gradient üst bar */}
             <div className={`h-1 bg-gradient-to-r ${b.glowFrom} ${b.glowTo}`} />
@@ -1418,7 +1418,7 @@ function WorkingHoursSection() {
   const isOpen = isOpenNow(currentHour);
 
   return (
-    <section ref={ref} className="relative z-10 px-4 sm:px-6 py-6 sm:py-8">
+    <section ref={ref} className="relative z-10 px-4 sm:px-6 py-6 sm:py-8 bg-neutral-950/95">
       {/* Grid pattern background */}
       <div className="absolute inset-0 z-0 opacity-[0.025]" style={{ backgroundImage: "linear-gradient(rgba(34,197,94,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(34,197,94,0.4) 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
       <motion.div initial="hidden" animate={inView ? "show" : "hidden"} variants={slideUp} className="relative mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
@@ -1471,7 +1471,7 @@ function WorkingHoursSection() {
                   const isToday = dayIndex === currentDay;
                   return (
                     <div key={day} className={`relative flex items-center gap-3 rounded-lg px-3 py-2 text-[10px] sm:text-[11px] md:text-[12px] transition-colors ${
-                      isToday ? "bg-emerald-500/10 border border-emerald-500/20" : "bg-black/60 border border-transparent hover:bg-black/80"
+                      isToday ? "bg-emerald-500/10 border border-emerald-500/20" : "bg-black/85 border border-transparent hover:bg-black/80"
                     }`}>
                       {/* Timeline dot */}
                       <div className={`relative z-10 h-[16px] w-[16px] shrink-0 rounded-full border-2 flex items-center justify-center ${
@@ -1510,7 +1510,7 @@ function WorkingHoursSection() {
                   const isToday = dayIndex === currentDay;
                   return (
                     <div key={day} className={`relative flex items-center gap-3 rounded-lg px-3 py-2 text-[10px] sm:text-[11px] md:text-[12px] transition-colors ${
-                      isToday ? "bg-emerald-500/10 border border-emerald-500/20" : "bg-black/60 border border-transparent hover:bg-black/80"
+                      isToday ? "bg-emerald-500/10 border border-emerald-500/20" : "bg-black/85 border border-transparent hover:bg-black/80"
                     }`}>
                       {/* Timeline dot */}
                       <div className={`relative z-10 h-[16px] w-[16px] shrink-0 rounded-full border-2 flex items-center justify-center ${
@@ -1571,7 +1571,7 @@ function RezervasyonSection() {
   ];
 
   return (
-    <section id="rezervasyon" ref={ref} className="relative z-10 px-4 sm:px-6 py-10 sm:py-12">
+    <section id="rezervasyon" ref={ref} className="relative z-10 px-4 sm:px-6 py-10 sm:py-12 bg-neutral-950/95">
       <motion.div initial="hidden" animate={inView ? "show" : "hidden"} variants={slideUp} className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
         <div className="animated-border relative">
           <div className="absolute inset-0 overflow-hidden rounded-[1.25rem]">
@@ -1580,7 +1580,7 @@ function RezervasyonSection() {
             <div className="blob-3 absolute -bottom-20 left-1/3 h-60 w-60 rounded-full bg-[#00d4e8]/10 blur-3xl" />
           </div>
 
-          <div className="relative rounded-[1.25rem] border border-white/[0.06] bg-black/60 p-4 sm:p-5 md:p-6 shadow-[0_0_40px_rgba(255,140,0,0.05),0_0_80px_rgba(0,212,232,0.03)]">
+          <div className="relative rounded-[1.25rem] border border-white/[0.06] bg-black/85 p-4 sm:p-5 md:p-6 shadow-[0_0_40px_rgba(255,140,0,0.05),0_0_80px_rgba(0,212,232,0.03)]">
             <AuroraLine />
 
             {/* Başlık */}
@@ -1819,7 +1819,7 @@ function FAQSection() {
   };
 
   return (
-    <section id="sss" ref={ref} className="relative z-10 px-4 sm:px-6 py-6 sm:py-8" dir="rtl">
+    <section id="sss" ref={ref} className="relative z-10 px-4 sm:px-6 py-6 sm:py-8 bg-neutral-950/95" dir="rtl">
       <motion.div initial="hidden" animate={inView ? "show" : "hidden"} variants={slideUp} className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
         {/* Section title */}
         <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5">
@@ -2137,7 +2137,7 @@ export default function Home() {
                 <div className="flex items-center gap-3 sm:gap-4">
                   <div className="relative flex h-11 w-11 sm:h-13 sm:w-13 shrink-0 items-center justify-center">
                     <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-rose-500/30 to-violet-500/30 blur-sm" />
-                    <div className="relative flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-xl border border-rose-500/30 bg-black/60">
+                    <div className="relative flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-xl border border-rose-500/30 bg-black/85">
                       <svg className="h-5 w-5 sm:h-6 sm:w-6 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16" cy="10" r="1" fill="currentColor"/><circle cx="19" cy="13" r="1" fill="currentColor"/></svg>
                     </div>
                   </div>
