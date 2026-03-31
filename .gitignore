@@ -1,0 +1,10 @@
+node_modules/
+.next/
+.env
+.env.local
+*.log
+db/
+mini-services/node_modules/
+upload/
+*.mp4
+*.log
