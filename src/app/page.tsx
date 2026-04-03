@@ -1,129 +1,176 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Phone, MapPin, Menu, X, Building2,
   Hammer, Shield, Award, Clock, MessageCircle,
-  ArrowUpRight, Star, Zap, Eye,
+  ArrowRight, ChevronRight, HardHat, Ruler,
+  TrendingUp, Users,
 } from "lucide-react";
 
-/* ─── INTRO LOADER ─── */
+/* ═══════════════════════════════════════════════
+   ANIMATION HOOK — trigger on ready
+   ═══════════════════════════════════════════════ */
+function useReadyDelay(ready: boolean, delay: number) {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    if (ready) {
+      const t = setTimeout(() => setShow(true), delay);
+      return () => clearTimeout(t);
+    }
+  }, [ready, delay]);
+  return show;
+}
+
+/* ═══════════════════════════════════════════════
+   INTRO LOADER — Diagonal Wipe Style
+   ═══════════════════════════════════════════════ */
 function IntroLoader({ onFinish }: { onFinish: () => void }) {
   const [phase, setPhase] = useState(0);
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase(1), 400);
-    const t2 = setTimeout(() => setPhase(2), 1000);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+    const t1 = setTimeout(() => setPhase(1), 300);
+    const t2 = setTimeout(() => setPhase(2), 800);
+    const t3 = setTimeout(() => setPhase(3), 1300);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, []);
   useEffect(() => {
-    if (phase === 2) { const t = setTimeout(onFinish, 400); return () => clearTimeout(t); }
+    if (phase === 3) { const t = setTimeout(onFinish, 600); return () => clearTimeout(t); }
   }, [phase, onFinish]);
 
-  if (phase >= 2) return null;
-
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-[#050506]">
-      <div className="flex flex-col items-center gap-6">
-        <div className="relative w-20 h-20 flex items-center justify-center">
-          <div className="absolute inset-0 rounded-full border border-amber-500/20 anim-spin-slow" />
-          <div className="absolute inset-2 rounded-full border border-amber-500/10 anim-spin-reverse" />
-          <div className={`h-10 w-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/25 transition-all duration-500 ${phase >= 1 ? "scale-100 rotate-0" : "scale-0 -rotate-180"}`}>
-            <Building2 className="h-5 w-5 text-black" strokeWidth={2} />
+    <div className={`fixed inset-0 z-[200] flex items-center justify-center bg-[#0b0f1a] transition-all duration-600 ${phase >= 3 ? "clip-exit" : ""}`}>
+      {/* Diagonal accent lines */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className={`absolute top-0 right-0 w-full h-[2px] bg-gradient-to-l from-[#06d6a0]/40 to-transparent transition-all duration-700 ${phase >= 1 ? "w-full" : "w-0"}`} />
+        <div className={`absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#0ea5e9]/40 to-transparent transition-all duration-700 delay-100 ${phase >= 1 ? "w-full" : "w-0"}`} />
+        <div className={`absolute top-0 left-0 w-[2px] h-full bg-gradient-to-b from-[#06d6a0]/20 to-transparent transition-all duration-700 delay-200 ${phase >= 1 ? "h-full" : "h-0"}`} />
+      </div>
+
+      <div className="flex flex-col items-center gap-5">
+        {/* Logo with bracket corners */}
+        <div className={`relative transition-all duration-500 ${phase >= 1 ? "opacity-100 scale-100" : "opacity-0 scale-75"}`}>
+          <div className="relative h-14 w-14 rounded-2xl bg-gradient-to-br from-[#06d6a0] to-[#0ea5e9] flex items-center justify-center shadow-xl shadow-[#06d6a0]/20 bracket-corners">
+            <Building2 className="h-7 w-7 text-[#0b0f1a]" strokeWidth={2} />
           </div>
         </div>
-        <div className={`transition-all duration-500 ${phase >= 1 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-          <span className="text-[20px] font-black tracking-[0.35em] text-white">ELİT YAPI</span>
+
+        {/* Title with clip reveal */}
+        <div className={`overflow-hidden ${phase >= 1 ? "" : ""}`}>
+          <div className={`transition-all duration-600 ${phase >= 2 ? "translate-x-0 opacity-100" : "translate-x-4 opacity-0"}`}>
+            <span className="text-[22px] font-black tracking-[0.4em] text-white/90">ELİT YAPI</span>
+          </div>
+        </div>
+
+        {/* Loading bar */}
+        <div className="w-20 h-[2px] bg-white/[0.04] rounded-full overflow-hidden">
+          <div className={`h-full bg-gradient-to-r from-[#06d6a0] to-[#0ea5e9] transition-all duration-500 ${phase >= 2 ? "w-full" : "w-0"}`} />
         </div>
       </div>
     </div>
   );
 }
 
-/* ─── FLOATING SHAPES ─── */
-function FloatingShapes() {
+/* ═══════════════════════════════════════════════
+   BACKGROUND — Diagonal Gradient + Grid + Orbs
+   ═══════════════════════════════════════════════ */
+function Background({ ready }: { ready: boolean }) {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      <div className="absolute top-[12%] left-[8%] anim-float-1">
-        <svg width="100" height="100" viewBox="0 0 100 100" className="anim-spin-slow">
-          <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(245,158,11,0.06)" strokeWidth="1" strokeDasharray="8 6" />
-        </svg>
+      {/* Base */}
+      <div className="absolute inset-0 bg-[#0b0f1a]" />
+      {/* Diagonal gradient wash */}
+      <div className="absolute inset-0 diagonal-bg" />
+
+      {/* Animated orbs */}
+      <div className={`absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-[#06d6a0]/[0.06] blur-[120px] transition-opacity duration-1000 ${ready ? "opacity-100" : "opacity-0"} a-drift`} />
+      <div className={`absolute -bottom-40 -left-40 w-[450px] h-[450px] rounded-full bg-[#0ea5e9]/[0.05] blur-[120px] transition-opacity duration-1000 delay-300 ${ready ? "opacity-100" : "opacity-0"} a-drift-reverse`} />
+      <div className={`absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-[#ff6b6b]/[0.02] blur-[150px] transition-opacity duration-1000 delay-500 ${ready ? "opacity-100" : "opacity-0"} a-pulse-soft`} />
+
+      {/* Subtle grid overlay */}
+      <div className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(6,214,160,1) 1px, transparent 1px), linear-gradient(90deg, rgba(6,214,160,1) 1px, transparent 1px)`,
+          backgroundSize: "80px 80px",
+        }}
+      />
+
+      {/* Scan line */}
+      {ready && (
+        <div className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#06d6a0]/10 to-transparent a-scan" />
+      )}
+
+      {/* Corner brackets — decorative */}
+      <div className={`absolute top-8 left-8 w-12 h-12 border-l-2 border-t-2 border-[#06d6a0]/10 rounded-tl-lg transition-all duration-1000 ${ready ? "opacity-100 translate-0" : "opacity-0 -translate-x-4 -translate-y-4"}`} />
+      <div className={`absolute bottom-8 right-8 w-12 h-12 border-r-2 border-b-2 border-[#0ea5e9]/10 rounded-br-lg transition-all duration-1000 delay-300 ${ready ? "opacity-100 translate-0" : "opacity-0 translate-x-4 translate-y-4"}`} />
+
+      {/* Crosshair */}
+      <div className={`absolute top-[30%] right-[15%] w-20 h-20 crosshair transition-opacity duration-1000 delay-700 ${ready ? "opacity-100" : "opacity-0"}`} />
+      <div className={`absolute bottom-[35%] left-[20%] w-16 h-16 crosshair transition-opacity duration-1000 delay-500 ${ready ? "opacity-100" : "opacity-0"}`} />
+
+      {/* Dashed circle — right */}
+      <div className={`absolute top-[20%] right-[10%] w-[180px] h-[180px] rounded-full border border-dashed border-white/[0.03] a-rotate transition-opacity duration-1000 ${ready ? "opacity-100" : "opacity-0"}`} />
+
+      {/* Dot cluster */}
+      <div className={`absolute bottom-[25%] right-[25%] flex gap-2 transition-opacity duration-1000 ${ready ? "opacity-100" : "opacity-0"}`}>
+        {[0, 200, 400].map((d) => (
+          <div key={d} className="w-1 h-1 rounded-full bg-[#06d6a0]/30" style={{ animation: `dot-blink 2s ease-in-out infinite ${d}ms` }} />
+        ))}
       </div>
-      <div className="absolute top-[22%] left-[18%] w-2 h-2 rounded-full bg-emerald-500/50 anim-scale-pulse" />
-      <div className="absolute top-[40%] left-[5%] anim-float-2">
-        <svg width="40" height="40" viewBox="0 0 40 40" className="anim-spin-reverse">
-          <rect x="4" y="4" width="32" height="32" fill="none" stroke="rgba(139,92,246,0.08)" strokeWidth="1" rx="2" />
-        </svg>
-      </div>
-      <div className="absolute bottom-[22%] left-[10%] anim-float-3">
-        <svg width="35" height="35" viewBox="0 0 35 35" className="anim-spin-slow" style={{ animationDuration: "30s" }}>
-          <polygon points="17,2 33,33 2,33" fill="none" stroke="rgba(16,185,129,0.08)" strokeWidth="1" />
-        </svg>
-      </div>
-      <div className="absolute top-[35%] left-[15%]">
-        <div className="w-14 h-14 rounded-full border border-amber-500/[0.04] anim-scale-pulse" />
-      </div>
-      <div className="absolute top-[15%] right-[12%] w-[140px] h-[140px]">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-3 h-3 rounded-full bg-amber-500/20 anim-scale-pulse" />
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-2 h-2 rounded-full bg-emerald-500/40 anim-orbit-1" />
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-1.5 h-1.5 rounded-full bg-violet-500/40 anim-orbit-2" />
-        </div>
-        <div className="absolute inset-[15%] rounded-full border border-white/[0.02]" />
-        <div className="absolute inset-[35%] rounded-full border border-white/[0.03]" />
-      </div>
-      <div className="absolute top-[50%] right-[8%] anim-float-2">
-        <svg width="25" height="25" viewBox="0 0 25 25" className="anim-spin-slow" style={{ animationDuration: "25s" }}>
-          <rect x="4" y="4" width="17" height="17" fill="none" stroke="rgba(245,158,11,0.07)" strokeWidth="1" transform="rotate(45 12.5 12.5)" />
-        </svg>
-      </div>
-      <div className="absolute bottom-[25%] right-[10%] w-12 h-12 bg-emerald-500/[0.03] anim-blob blur-sm" />
-      <div className="absolute top-[30%] left-[40%] w-1 h-1 rounded-full bg-rose-500/30 anim-scale-pulse" />
-      <div className="absolute top-[65%] left-[55%] w-1 h-1 rounded-full bg-cyan-500/25 anim-scale-pulse" />
-      <div className="absolute top-[45%] left-[45%] -translate-x-1/2 -translate-y-1/2 w-[400px] h-[250px] bg-amber-500/[0.02] rounded-full blur-[120px] anim-pulse-glow" />
     </div>
   );
 }
 
-/* ─── HEADER ─── */
+/* ═══════════════════════════════════════════════
+   HEADER — Clean Minimal
+   ═══════════════════════════════════════════════ */
 function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 80);
+    const fn = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
   return (
-    <header className={`fixed top-0 inset-x-0 z-[100] transition-all duration-700 ${scrolled ? "glass-strong py-2 shadow-lg shadow-black/30" : "bg-transparent py-5"}`}>
-      <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2.5">
-          <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-md shadow-amber-500/20">
-            <Building2 className="h-4 w-4 text-black" strokeWidth={2.5} />
+    <header className={`fixed top-0 inset-x-0 z-[100] transition-all duration-500 ${scrolled ? "glass-nav py-3" : "bg-transparent py-5"}`}>
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <a href="#" className="flex items-center gap-3 group">
+          <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-[#06d6a0] to-[#0ea5e9] flex items-center justify-center shadow-lg shadow-[#06d6a0]/10 group-hover:shadow-[#06d6a0]/20 transition-shadow">
+            <Building2 className="h-[18px] w-[18px] text-[#0b0f1a]" strokeWidth={2.5} />
           </div>
-          <span className="text-[13px] font-black tracking-[0.18em] text-white">ELİT YAPI</span>
+          <div className="flex flex-col">
+            <span className="text-[13px] font-black tracking-[0.15em] text-white leading-none">ELİT YAPI</span>
+            <span className="text-[8px] font-medium tracking-[0.2em] text-[#06d6a0]/50 uppercase leading-none mt-0.5">Construction</span>
+          </div>
         </a>
-        <nav className="hidden md:flex items-center gap-1 rounded-full border border-white/[0.06] bg-white/[0.02] px-1.5 py-1">
-          {["Projeler", "Hakkımızda", "İletişim"].map((label) => (
-            <button key={label} className="px-4 py-2 text-[11px] font-semibold text-zinc-400 hover:text-white transition-colors rounded-full hover:bg-white/[0.04]">{label}</button>
+
+        <nav className="hidden md:flex items-center gap-8">
+          {["Projeler", "Hizmetler", "Hakkımızda", "İletişim"].map((label) => (
+            <button key={label} className="relative text-[12px] font-semibold text-zinc-500 hover:text-white transition-colors duration-300 group py-1">
+              {label}
+              <span className="absolute -bottom-0.5 left-0 w-0 h-[1.5px] bg-gradient-to-r from-[#06d6a0] to-[#0ea5e9] group-hover:w-full transition-all duration-300" />
+            </button>
           ))}
-          <a href="tel:+903121234567" className="ml-1 flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-[10.5px] font-bold text-black">
-            <Phone className="h-3 w-3" /> Hemen Ara
+          <a href="tel:+903121234567" className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#06d6a0]/10 border border-[#06d6a0]/20 text-[12px] font-bold text-[#06d6a0] hover:bg-[#06d6a0]/20 transition-all">
+            <Phone className="h-3.5 w-3.5" />
+            Hemen Ara
           </a>
         </nav>
-        <button onClick={() => setOpen(!open)} className="md:hidden flex h-9 w-9 items-center justify-center rounded-xl border border-white/[0.08] text-zinc-400">
+
+        <button onClick={() => setOpen(!open)} className="md:hidden flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.08] text-zinc-400 hover:text-white transition-colors">
           {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
         </button>
       </div>
+
       {open && (
-        <div className="md:hidden border-t border-white/[0.06] bg-[#050506]/95 backdrop-blur-xl">
+        <div className="md:hidden border-t border-white/[0.06] bg-[#0b0f1a]/95 backdrop-blur-xl">
           <div className="px-6 py-4 space-y-1">
-            {["Projeler", "Hakkımızda", "İletişim"].map((l) => (
-              <button key={l} className="block w-full text-left px-4 py-3 text-[13px] font-semibold text-zinc-300 hover:text-amber-400 rounded-xl">{l}</button>
+            {["Projeler", "Hizmetler", "Hakkımızda", "İletişim"].map((l) => (
+              <button key={l} className="block w-full text-left px-4 py-3 text-[13px] font-semibold text-zinc-400 hover:text-[#06d6a0] rounded-lg transition-colors">{l}</button>
             ))}
+            <a href="tel:+903121234567" className="flex items-center gap-2 px-4 py-3 text-[13px] font-bold text-[#06d6a0]">
+              <Phone className="h-4 w-4" /> 0312 123 45 67
+            </a>
           </div>
         </div>
       )}
@@ -131,189 +178,199 @@ function Header() {
   );
 }
 
-/* ─── STATS MARQUEE ─── */
-function StatsMarquee() {
+/* ═══════════════════════════════════════════════
+   ANIMATED COUNTER
+   ═══════════════════════════════════════════════ */
+function Counter({ end, suffix = "", duration = 2000 }: { end: number; suffix?: string; duration?: number }) {
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    if (!started) return;
+    let start = 0;
+    const step = Math.ceil(end / (duration / 30));
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= end) { setCount(end); clearInterval(timer); }
+      else setCount(start);
+    }, 30);
+    return () => clearInterval(timer);
+  }, [started, end, duration]);
+
+  useEffect(() => {
+    if (started) return;
+    const t = setTimeout(() => setStarted(true), 200);
+    return () => clearTimeout(t);
+  }, [started]);
+
+  return <>{count}{suffix}</>;
+}
+
+/* ═══════════════════════════════════════════════
+   STATS BAR — Bottom Stats
+   ═══════════════════════════════════════════════ */
+function StatsBar({ ready }: { ready: boolean }) {
+  const show = useReadyDelay(ready, 1800);
   const stats = [
-    { value: "250+", label: "Proje" }, { value: "15+", label: "Yıl" },
-    { value: "35+", label: "Mühendis" }, { value: "%98", label: "Memnuniyet" },
-    { value: "12K+", label: "m² Alan" }, { value: "24/7", label: "Destek" },
+    { value: 250, suffix: "+", label: "Tamamlanan Proje", icon: Building2 },
+    { value: 15, suffix: "+", label: "Yıllık Deneyim", icon: Clock },
+    { value: 98, suffix: "%", label: "Müşteri Memnuniyeti", icon: TrendingUp },
+    { value: 35, suffix: "+", label: "Profesyonel Ekip", icon: Users },
   ];
+
   return (
-    <div className="absolute bottom-0 inset-x-0 z-20 py-4 marquee-mask">
-      <div className="flex whitespace-nowrap anim-marquee" style={{ width: "max-content" }}>
-        {[...stats, ...stats, ...stats, ...stats].map((s, i) => (
-          <span key={i} className="mx-8 inline-flex items-center gap-3 select-none">
-            <span className="text-[18px] sm:text-[22px] font-black text-white/[0.06]">{s.value}</span>
-            <span className="text-[10px] font-bold text-zinc-700 uppercase tracking-[0.15em]">{s.label}</span>
-            <span className="ml-8 w-1 h-1 rounded-full bg-amber-500/10" />
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ─── FADE IN ─── */
-function FadeIn({ children, delay, className = "" }: { children: React.ReactNode; delay: number; className?: string }) {
-  const [show, setShow] = useState(false);
-  useEffect(() => { const t = setTimeout(() => setShow(true), delay); return () => clearTimeout(t); }, [delay]);
-  return (
-    <div className={`transition-all duration-700 ease-out ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"} ${className}`}>
-      {children}
-    </div>
-  );
-}
-
-/* ─── HERO ─── */
-function Hero({ ready }: { ready: boolean }) {
-  return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      <div className="absolute inset-0 bg-[#050506]" />
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[5%] -left-40 w-[600px] h-[600px] bg-amber-500/[0.06] rounded-full blur-[150px] anim-float-1" />
-        <div className="absolute bottom-[5%] -right-40 w-[500px] h-[500px] bg-emerald-500/[0.04] rounded-full blur-[140px] anim-float-2" />
-        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-violet-500/[0.025] rounded-full blur-[180px] anim-pulse-glow" />
-        <div className="absolute bottom-[30%] left-[20%] w-[250px] h-[250px] bg-rose-500/[0.02] rounded-full blur-[100px] anim-float-3" />
-      </div>
-      <div className="absolute inset-0 grid-pattern opacity-50 pointer-events-none" />
-      <div className="absolute inset-0 dot-pattern opacity-30 pointer-events-none" />
-      {ready && <FloatingShapes />}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-amber-500/10 to-transparent" />
-        <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-500/8 to-transparent" />
-      </div>
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full pt-32 pb-40 sm:pt-40 sm:pb-44">
-        <div className="max-w-2xl">
-          <FadeIn delay={100}>
-            <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-amber-500/15 bg-amber-500/[0.04] px-4 py-1.5">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inset-0 rounded-full bg-amber-500 animate-ping opacity-50" />
-                <span className="relative rounded-full h-1.5 w-1.5 bg-amber-500" />
-              </span>
-              <span className="text-[10px] font-bold tracking-[0.2em] text-amber-400/70 uppercase">Premium İnşaat & Mimarlık</span>
-            </div>
-          </FadeIn>
-
-          <h1 className="text-[44px] sm:text-[60px] md:text-[76px] lg:text-[92px] font-black leading-[0.9] tracking-tight text-white mb-6">
-            <FadeIn delay={250}><span className="block">Hayallerinizi</span></FadeIn>
-            <FadeIn delay={500}><span className="block text-grad-gold mt-1 sm:mt-2">İnşa</span></FadeIn>
-            <FadeIn delay={800}>
-              <span className="block mt-1 sm:mt-2 inline-flex items-center gap-3 sm:gap-4">
-                Ediyoruz
-                <span className="inline-block w-8 sm:w-12 h-[2px] bg-gradient-to-r from-amber-500/60 to-transparent" />
-              </span>
-            </FadeIn>
-          </h1>
-
-          <FadeIn delay={1000}>
-            <p className="text-[14px] sm:text-[15px] text-zinc-500 max-w-lg leading-relaxed mb-10">
-              Konut, villa, ticari yapı ve restorasyon projelerinde
-              <br className="hidden sm:block" />
-              15 yılı aşkın tecrübemizle <span className="text-zinc-300 font-medium">kalitenin ve güvenin</span> adresiyiz.
-            </p>
-          </FadeIn>
-
-          <FadeIn delay={1200}>
-            <div className="flex flex-wrap gap-3 mb-14">
-              <a href="#" className="flex items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/[0.08] px-7 py-3.5 text-[13px] font-bold text-amber-400 hover:bg-amber-500/[0.15] transition-colors">
-                Projelerimiz <ArrowUpRight className="h-4 w-4" />
-              </a>
-              <a href="#" className="flex items-center gap-2.5 rounded-xl border border-white/[0.08] bg-white/[0.02] px-7 py-3.5 text-[13px] font-semibold text-zinc-300 hover:bg-white/[0.05] transition-all">
-                <Phone className="h-4 w-4 text-amber-500" /> Ücretsiz Keşif
-              </a>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={1400}>
-            <div className="flex flex-wrap gap-2 mb-12">
-              {[
-                { icon: Shield, label: "Garantili", color: "text-amber-500/70" },
-                { icon: Award, label: "Kaliteli", color: "text-emerald-500/70" },
-                { icon: Clock, label: "Zamanında", color: "text-violet-500/70" },
-                { icon: Zap, label: "Modern", color: "text-rose-500/70" },
-              ].map((chip) => (
-                <div key={chip.label} className="flex items-center gap-1.5 rounded-full border border-white/[0.05] bg-white/[0.015] px-3 py-1.5">
-                  <chip.icon className={`h-3 w-3 ${chip.color}`} />
-                  <span className="text-[10px] font-semibold text-zinc-500">{chip.label}</span>
-                </div>
-              ))}
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={1600}>
-            <div className="flex items-center gap-6 sm:gap-10">
-              {[
-                { value: "250+", label: "Proje" },
-                { value: "15+", label: "Yıl Deneyim" },
-                { value: "%98", label: "Memnuniyet" },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <p className="text-[22px] sm:text-[28px] font-black text-grad-gold leading-none">{stat.value}</p>
-                  <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-[0.15em] mt-1">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </FadeIn>
-        </div>
-      </div>
-
-      {/* Right decoration — desktop */}
-      <div className={`absolute top-1/2 right-[8%] -translate-y-1/2 z-10 hidden lg:block pointer-events-none transition-all duration-1000 ${ready ? "opacity-100 scale-100" : "opacity-0 scale-50"}`}>
-        <div className="relative w-[260px] h-[320px] flex items-center justify-center">
-          <div className="absolute inset-0 rounded-full border border-amber-500/[0.04] anim-spin-slow" />
-          <div className="absolute inset-4 rounded-full border border-emerald-500/[0.03] anim-spin-reverse" />
-          <div className="absolute inset-10 rounded-full border border-violet-500/[0.02] anim-spin-slow" style={{ animationDuration: "30s" }} />
-          <div className="anim-float-1">
-            <Building2 className="w-20 h-20 text-white/[0.03]" strokeWidth={0.5} />
-          </div>
-          {[
-            { icon: Hammer, pos: "top-0 right-4", color: "#f59e0b" },
-            { icon: Star, pos: "top-12 -left-2", color: "#10b981" },
-            { icon: Eye, pos: "bottom-8 right-0", color: "#8b5cf6" },
-          ].map((item, i) => (
-            <div key={i} className={`absolute ${item.pos} transition-all duration-500 ${ready ? "opacity-100 scale-100" : "opacity-0 scale-0"}`} style={{ transitionDelay: `${1400 + i * 200}ms` }}>
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center border shadow-lg" style={{ background: `${item.color}08`, borderColor: `${item.color}15` }}>
-                <item.icon className="w-4 h-4" style={{ color: item.color }} strokeWidth={1.5} />
+    <div className={`absolute bottom-0 inset-x-0 z-20 transition-all duration-700 ${show ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}>
+      <div className="border-t border-white/[0.04] bg-[#0b0f1a]/80 backdrop-blur-lg">
+        <div className="max-w-7xl mx-auto px-6 py-6 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4">
+          {stats.map((stat) => (
+            <div key={stat.label} className="flex items-center gap-3 group cursor-default">
+              <div className="h-10 w-10 rounded-lg bg-[#06d6a0]/[0.06] border border-[#06d6a0]/[0.08] flex items-center justify-center shrink-0 group-hover:border-[#06d6a0]/20 transition-colors">
+                <stat.icon className="h-4 w-4 text-[#06d6a0]/60" />
+              </div>
+              <div>
+                <p className="text-[20px] md:text-[24px] font-black text-white counter-glow leading-none">
+                  {show ? <Counter end={stat.value} suffix={stat.suffix} /> : "0"}
+                </p>
+                <p className="text-[9px] font-semibold text-zinc-600 uppercase tracking-wider mt-0.5">{stat.label}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
+    </div>
+  );
+}
 
-      {/* Scroll indicator */}
-      <div className={`absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 transition-opacity duration-500 ${ready ? "opacity-100" : "opacity-0"}`}>
-        <span className="text-[9px] font-bold tracking-[0.3em] uppercase text-zinc-600">Keşfet</span>
-        <div className="w-5 h-8 rounded-full border border-zinc-700/30 flex justify-center pt-1.5 anim-float-1">
-          <div className="w-1 h-1.5 rounded-full bg-amber-500/60 animate-pulse" />
+/* ═══════════════════════════════════════════════
+   HERO — Centered Bold Layout
+   ═══════════════════════════════════════════════ */
+function Hero({ ready }: { ready: boolean }) {
+  const show1 = useReadyDelay(ready, 100);
+  const show2 = useReadyDelay(ready, 300);
+  const show3 = useReadyDelay(ready, 600);
+  const show4 = useReadyDelay(ready, 800);
+  const show5 = useReadyDelay(ready, 1000);
+  const show6 = useReadyDelay(ready, 1200);
+  const show7 = useReadyDelay(ready, 1400);
+
+  return (
+    <section className="relative min-h-screen flex flex-col overflow-hidden">
+      <Background ready={ready} />
+
+      <div className="relative z-10 flex-1 flex items-center justify-center pt-24 pb-36">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          {/* Top badge */}
+          <div className={`transition-all duration-700 ${show1 ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"}`}>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#06d6a0]/10 bg-[#06d6a0]/[0.04] px-4 py-1.5 mb-8">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inset-0 rounded-full bg-[#06d6a0] animate-ping opacity-40" />
+                <span className="relative rounded-full h-1.5 w-1.5 bg-[#06d6a0]" />
+              </span>
+              <span className="text-[10px] font-bold tracking-[0.25em] text-[#06d6a0]/60 uppercase">Ankara'nın Güvenilir İnşaat Partneri</span>
+            </div>
+          </div>
+
+          {/* Main Title */}
+          <h1 className="mb-8">
+            <div className={`transition-all duration-800 ${show2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+              <span className="block text-[42px] sm:text-[56px] md:text-[72px] lg:text-[88px] font-black leading-[0.85] tracking-tight text-grad-white">
+                Daha İyi Bir
+              </span>
+            </div>
+            <div className={`transition-all duration-800 delay-100 ${show3 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+              <span className="block text-[48px] sm:text-[64px] md:text-[80px] lg:text-[96px] font-black leading-[0.85] tracking-tight text-grad-teal mt-1">
+                Gelecek İnşa
+              </span>
+            </div>
+            <div className={`transition-all duration-800 delay-200 ${show4 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+              <span className="block text-[48px] sm:text-[64px] md:text-[80px] lg:text-[96px] font-black leading-[0.85] tracking-tight text-grad-coral mt-1">
+                Ediyoruz.
+              </span>
+            </div>
+          </h1>
+
+          {/* Description */}
+          <div className={`transition-all duration-700 ${show5 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+            <p className="text-[15px] sm:text-[16px] text-zinc-500 max-w-xl mx-auto leading-relaxed mb-10">
+              15 yılı aşkın tecrübemizle konut, villa ve ticari projelerde
+              <span className="text-zinc-300"> hayalinizdeki yaşam alanlarını</span> kaliteli
+              ve güvenilir şekilde hayata geçiriyoruz.
+            </p>
+          </div>
+
+          {/* CTA Buttons */}
+          <div className={`transition-all duration-700 ${show6 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+            <div className="flex flex-wrap justify-center gap-3 mb-14">
+              <a href="#" className="a-shimmer group flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#06d6a0] to-[#0ea5e9] text-[13px] font-bold text-[#0b0f1a] shadow-lg shadow-[#06d6a0]/15 hover:shadow-[#06d6a0]/25 transition-shadow">
+                Projelerimizi Gör
+                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </a>
+              <a href="#" className="a-shimmer flex items-center gap-2.5 px-7 py-3.5 rounded-xl border border-white/[0.08] bg-white/[0.02] text-[13px] font-semibold text-zinc-300 hover:bg-white/[0.05] hover:border-white/[0.12] transition-all">
+                <Phone className="h-4 w-4 text-[#06d6a0]" />
+                Ücretsiz Keşif
+              </a>
+            </div>
+          </div>
+
+          {/* Service tags */}
+          <div className={`transition-all duration-700 ${show7 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+            <div className="flex flex-wrap justify-center gap-3">
+              {[
+                { icon: HardHat, label: "Konut & Villa" },
+                { icon: Building2, label: "Ticari Yapı" },
+                { icon: Hammer, label: "Restorasyon" },
+                { icon: Ruler, label: "Anahtar Teslim" },
+                { icon: Shield, label: "Garantili" },
+              ].map((tag) => (
+                <div key={tag.label} className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-white/[0.04] bg-white/[0.01] hover:border-[#06d6a0]/10 hover:bg-[#06d6a0]/[0.02] transition-all cursor-default">
+                  <tag.icon className="h-3 w-3 text-zinc-600" />
+                  <span className="text-[10.5px] font-semibold text-zinc-500">{tag.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      <StatsMarquee />
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#050506] to-transparent pointer-events-none z-[15]" />
+      {/* Scroll indicator */}
+      <div className={`absolute bottom-[120px] left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 transition-opacity duration-500 ${ready ? "opacity-100" : "opacity-0"}`}>
+        <span className="text-[9px] font-bold tracking-[0.3em] uppercase text-zinc-700">Scroll</span>
+        <div className="w-[1px] h-8 bg-gradient-to-b from-[#06d6a0]/40 to-transparent relative overflow-hidden">
+          <div className="absolute top-0 inset-x-0 h-3 bg-[#06d6a0]/80 animate-bounce" />
+        </div>
+      </div>
+
+      <StatsBar ready={ready} />
     </section>
   );
 }
 
-/* ─── FIXED BUTTONS ─── */
+/* ═══════════════════════════════════════════════
+   FIXED BUTTONS — Bottom Right
+   ═══════════════════════════════════════════════ */
 function FixedButtons({ ready }: { ready: boolean }) {
-  const [show, setShow] = useState(false);
-  useEffect(() => { if (ready) { const t = setTimeout(() => setShow(true), 500); return () => clearTimeout(t); } }, [ready]);
+  const show = useReadyDelay(ready, 2000);
   if (!show) return null;
 
   return (
-    <div className="fixed bottom-5 right-5 z-[90] flex flex-col gap-2.5">
+    <div className="fixed bottom-6 right-6 z-[90] flex flex-col gap-2.5">
       {[
-        { icon: Phone, label: "Ara", href: "tel:+903121234567", from: "from-amber-400", to: "to-amber-600" },
-        { icon: MessageCircle, label: "WhatsApp", href: "https://wa.me/903121234567", from: "from-emerald-400", to: "to-emerald-600" },
-        { icon: MapPin, label: "Konum", href: "https://maps.google.com/?q=Cankaya,Ankara", from: "from-violet-400", to: "to-violet-600" },
-      ].map((btn) => (
-        <a key={btn.label} href={btn.href} target="_blank" rel="noopener noreferrer"
-          className="flex items-center justify-end group">
-          <span className="opacity-0 group-hover:opacity-100 transition-all duration-300 text-[10px] font-bold text-white bg-black/80 backdrop-blur-sm px-2.5 py-1 rounded-lg whitespace-nowrap shadow-lg translate-x-2 group-hover:translate-x-0 mr-2">
+        { icon: Phone, label: "Ara", href: "tel:+903121234567", bg: "bg-[#06d6a0]", shadow: "shadow-[#06d6a0]/20" },
+        { icon: MessageCircle, label: "WhatsApp", href: "https://wa.me/903121234567", bg: "bg-[#0ea5e9]", shadow: "shadow-[#0ea5e9]/20" },
+        { icon: MapPin, label: "Konum", href: "https://maps.google.com/?q=Cankaya,Ankara", bg: "bg-[#ff6b6b]", shadow: "shadow-[#ff6b6b]/20" },
+      ].map((btn, i) => (
+        <a
+          key={btn.label}
+          href={btn.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-end group"
+          style={{ animation: `slide-up 0.5s ${i * 100}ms cubic-bezier(0.16,1,0.3,1) forwards`, opacity: 0 }}
+        >
+          <span className="opacity-0 group-hover:opacity-100 transition-all duration-300 text-[10px] font-bold text-white bg-[#0b0f1a]/90 backdrop-blur-sm px-2.5 py-1 rounded-lg whitespace-nowrap shadow-lg translate-x-2 group-hover:translate-x-0 mr-2 border border-white/[0.06]">
             {btn.label}
           </span>
-          <span className={`flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br ${btn.from} ${btn.to} shadow-lg hover:scale-110 active:scale-90 transition-transform`}>
+          <span className={`flex h-11 w-11 items-center justify-center rounded-full ${btn.bg} shadow-lg ${btn.shadow} hover:scale-110 active:scale-90 transition-transform`}>
             <btn.icon className="h-[18px] w-[18px] text-white" />
           </span>
         </a>
@@ -322,11 +379,13 @@ function FixedButtons({ ready }: { ready: boolean }) {
   );
 }
 
-/* ─── PAGE ─── */
+/* ═══════════════════════════════════════════════
+   PAGE
+   ═══════════════════════════════════════════════ */
 export default function Home() {
   const [ready, setReady] = useState(false);
   return (
-    <main className="min-h-screen bg-[#050506]">
+    <main className="min-h-screen bg-[#0b0f1a]">
       <IntroLoader onFinish={() => setReady(true)} />
       <Header />
       <Hero ready={ready} />
