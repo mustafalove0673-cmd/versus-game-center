@@ -11,3 +11,4 @@ tsconfig.tsbuildinfo
 .env.*
 search_results.json
 bun.lock
+package-lock.json
