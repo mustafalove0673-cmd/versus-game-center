@@ -73,90 +73,57 @@
   --sidebar-ring: #f59e0b;
 }
 
-/* ═══════════════════════════════════════════════
-   BASE
-   ═══════════════════════════════════════════════ */
+/* ═══════ BASE ═══════ */
 @layer base {
   * { @apply border-border outline-ring/50; }
   html { scroll-behavior: smooth; background: #050506; }
-  body { @apply text-foreground; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-  a, button, [role="button"] { touch-action: manipulation; }
+  body { @apply text-foreground; -webkit-font-smoothing: antialiased; }
+  a, button { touch-action: manipulation; }
   ::selection { background: rgba(245, 158, 11, 0.25); color: #fff; }
 }
 
-/* ═══════════════════════════════════════════════
-   SCROLLBAR
-   ═══════════════════════════════════════════════ */
+/* ═══════ SCROLLBAR ═══════ */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #050506; }
 ::-webkit-scrollbar-thumb { background: rgba(245, 158, 11, 0.15); border-radius: 10px; }
-html { scrollbar-width: thin; scrollbar-color: rgba(245, 158, 11, 0.15) #050506; }
 
-/* ═══════════════════════════════════════════════
-   KEYFRAMES — 20+ ANIMATIONS
-   ═══════════════════════════════════════════════ */
+/* ═══════ ANIMATIONS ═══════ */
 @keyframes float-1 {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(20px, -30px) rotate(3deg); }
-  50% { transform: translate(-15px, -55px) rotate(-2deg); }
-  75% { transform: translate(30px, -20px) rotate(5deg); }
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(15px, -25px); }
 }
 @keyframes float-2 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(-35px, 25px) scale(1.08); }
-  66% { transform: translate(20px, -30px) scale(0.92); }
+  50% { transform: translate(-20px, 15px) scale(1.05); }
 }
 @keyframes float-3 {
   0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  50% { transform: translate(25px, -35px) rotate(180deg); }
+  50% { transform: translate(15px, -20px) rotate(180deg); }
 }
-@keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-@keyframes spin-reverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
 @keyframes pulse-glow {
   0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.15); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+@keyframes scale-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.3); opacity: 0.8; }
 }
 @keyframes gradient-flow {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-@keyframes shimmer-sweep {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-@keyframes blob-morph {
-  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-  25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
-  50% { border-radius: 50% 40% 60% 50% / 40% 50% 60% 40%; }
-  75% { border-radius: 40% 60% 50% 60% / 60% 40% 50% 70%; }
-}
-@keyframes scale-pulse {
-  0%, 100% { transform: scale(1); opacity: 0.4; }
-  50% { transform: scale(1.5); opacity: 0.9; }
-}
-@keyframes slide-r {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(12px); }
-}
-@keyframes slide-l {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(-12px); }
-}
-@keyframes text-shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
-}
-@keyframes line-draw {
-  from { stroke-dashoffset: 1000; }
-  to { stroke-dashoffset: 0; }
-}
-@keyframes dash-move {
-  to { stroke-dashoffset: -20; }
 }
 @keyframes orbit-1 {
   from { transform: rotate(0deg) translateX(80px) rotate(0deg); }
@@ -170,33 +137,11 @@ html { scrollbar-width: thin; scrollbar-color: rgba(245, 158, 11, 0.15) #050506;
   from { transform: rotate(240deg) translateX(65px) rotate(-240deg); }
   to { transform: rotate(600deg) translateX(65px) rotate(-600deg); }
 }
-@keyframes wave {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-@keyframes counter-rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
-}
-@keyframes dash-flow {
-  to { stroke-dashoffset: -40; }
+@keyframes blob-morph {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
 }
 
-/* ═══════════════════════════════════════════════
-   @property for conic gradient rotation
-   ═══════════════════════════════════════════════ */
-@property --border-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-@keyframes rotate-border {
-  to { --border-angle: 360deg; }
-}
-
-/* ═══════════════════════════════════════════════
-   ANIMATION CLASSES
-   ═══════════════════════════════════════════════ */
 .anim-float-1 { animation: float-1 8s ease-in-out infinite; }
 .anim-float-2 { animation: float-2 10s ease-in-out infinite; }
 .anim-float-3 { animation: float-3 12s ease-in-out infinite; }
@@ -205,44 +150,22 @@ html { scrollbar-width: thin; scrollbar-color: rgba(245, 158, 11, 0.15) #050506;
 .anim-pulse-glow { animation: pulse-glow 4s ease-in-out infinite; }
 .anim-blob { animation: blob-morph 8s ease-in-out infinite; }
 .anim-scale-pulse { animation: scale-pulse 3s ease-in-out infinite; }
-.anim-slide-r { animation: slide-r 5s ease-in-out infinite; }
-.anim-slide-l { animation: slide-l 6s ease-in-out infinite; }
 .anim-orbit-1 { animation: orbit-1 12s linear infinite; }
 .anim-orbit-2 { animation: orbit-2 9s linear infinite; }
 .anim-orbit-3 { animation: orbit-3 15s linear infinite; }
-.anim-wave { animation: wave 2s ease-in-out infinite; }
-.anim-counter-rotate { animation: counter-rotate 20s linear infinite; }
 .anim-marquee { animation: marquee 30s linear infinite; }
-.anim-dash-flow { animation: dash-flow 2s linear infinite; }
 
-/* ═══════════════════════════════════════════════
-   GRADIENT TEXT
-   ═══════════════════════════════════════════════ */
+/* ═══════ GRADIENT TEXT ═══════ */
 .text-grad-gold {
   background: linear-gradient(135deg, #fde68a 0%, #f59e0b 40%, #d97706 70%, #fbbf24 100%);
   background-size: 200% 200%;
-  -webkit-background-clip: text; background-clip: text;
+  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient-flow 4s ease infinite;
 }
-.text-grad-multi {
-  background: linear-gradient(135deg, #f59e0b, #10b981, #f43f5e, #8b5cf6, #f59e0b);
-  background-size: 300% 300%;
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient-flow 6s ease infinite;
-}
-.text-grad-shimmer {
-  background: linear-gradient(90deg, #fafafa 0%, #f59e0b 25%, #fafafa 50%, #10b981 75%, #fafafa 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: text-shimmer 5s linear infinite;
-}
 
-/* ═══════════════════════════════════════════════
-   PATTERNS
-   ═══════════════════════════════════════════════ */
+/* ═══════ PATTERNS ═══════ */
 .dot-pattern {
   background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 24px 24px;
@@ -253,24 +176,14 @@ html { scrollbar-width: thin; scrollbar-color: rgba(245, 158, 11, 0.15) #050506;
     linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
   background-size: 60px 60px;
 }
-.cross-pattern {
-  background-image:
-    linear-gradient(45deg, rgba(255,255,255,0.012) 1px, transparent 1px),
-    linear-gradient(-45deg, rgba(255,255,255,0.012) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
 
-/* ═══════════════════════════════════════════════
-   MARQUEE
-   ═══════════════════════════════════════════════ */
+/* ═══════ MARQUEE MASK ═══════ */
 .marquee-mask {
   -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
   mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
 }
 
-/* ═══════════════════════════════════════════════
-   GLASS
-   ═══════════════════════════════════════════════ */
+/* ═══════ GLASS ═══════ */
 .glass {
   background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(24px) saturate(180%);
@@ -284,58 +197,11 @@ html { scrollbar-width: thin; scrollbar-color: rgba(245, 158, 11, 0.15) #050506;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ═══════════════════════════════════════════════
-   ANIMATED ROTATING BORDER
-   ═══════════════════════════════════════════════ */
-.animated-border {
-  --border-angle: 0deg;
-  position: relative;
-  border-radius: 1rem;
-  overflow: hidden;
-}
-.animated-border::before {
-  content: "";
-  position: absolute; inset: 0;
-  padding: 1.5px;
-  border-radius: inherit;
-  background: conic-gradient(from var(--border-angle), #f59e0b, #10b981, #f43f5e, #8b5cf6, #06b6d4, #f59e0b);
-  animation: rotate-border 4s linear infinite;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor; mask-composite: exclude;
-  pointer-events: none; z-index: 1;
-}
-
-/* ═══════════════════════════════════════════════
-   SHIMMER SWEEP
-   ═══════════════════════════════════════════════ */
-.shimmer { position: relative; overflow: hidden; }
-.shimmer::after {
-  content: "";
-  position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.025), transparent);
-  animation: shimmer-sweep 5s ease-in-out infinite;
-  pointer-events: none;
-}
-
-/* ═══════════════════════════════════════════════
-   DIVIDER LINES
-   ═══════════════════════════════════════════════ */
-.gradient-line {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(245,158,11,0.3), rgba(16,185,129,0.2), transparent);
-}
-.gradient-line-v {
-  width: 1px;
-  background: linear-gradient(180deg, transparent, rgba(245,158,11,0.2), transparent);
-}
-
-/* ═══════════════════════════════════════════════
-   NOISE TEXTURE OVERLAY
-   ═══════════════════════════════════════════════ */
+/* ═══════ NOISE OVERLAY ═══════ */
 .noise-overlay::before {
   content: "";
-  position: absolute; inset: 0;
+  position: absolute;
+  inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   background-repeat: repeat;
   pointer-events: none;
