@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -17,16 +19,22 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Elit Yapı | Premium İnşaat & Mimarlık",
+  title: "Versus Game Center | Premium Oyun & E-Sports Deneyimi",
   description:
-    "Ankara'nın güvenilir inşaat firması. 15+ yıllık tecrübe ile konut, villa, ticari yapı, restorasyon ve anahtar teslim projeler.",
+    "Yüksek performanslı gaming PC'ler, VR deneyimi, PlayStation 5, turnuvalar ve daha fazlası. Versus Game Center'da e-sports tutkusunu yaşa!",
   keywords: [
-    "Elit Yapı", "inşaat", "mimarlık", "Ankara", "konut", "villa",
-    "ticari inşaat", "restorasyon", "anahtar teslim", "premium",
+    "Versus Game Center",
+    "oyun merkezi",
+    "internet kafe",
+    "gaming cafe",
+    "e-sports",
+    "turnuva",
+    "VR oyun",
+    "PC gaming",
   ],
   openGraph: {
-    title: "Elit Yapı | Premium İnşaat & Mimarlık",
-    description: "Ankara'nın güvenilir inşaat firması.",
+    title: "Versus Game Center | Premium Oyun & E-Sports Deneyimi",
+    description: "Yüksek performanslı gaming PC'ler, VR deneyimi ve e-sports turnuvaları.",
     type: "website",
   },
 };
@@ -37,12 +45,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className="dark">
+    <html lang="tr" className="dark" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        style={{ backgroundColor: "#0b0f1a" }}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
