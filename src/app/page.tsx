@@ -6,7 +6,6 @@ import {
   AnimatePresence,
   useScroll,
   useTransform,
-  useInView,
 } from "framer-motion";
 import {
   Phone,
@@ -20,55 +19,10 @@ import {
   Clock,
   MessageCircle,
   ArrowUpRight,
-  ArrowRight,
-  ChevronDown,
   Star,
   Zap,
   Eye,
-  Square,
-  Triangle,
-  Circle,
-  Diamond,
 } from "lucide-react";
-
-/* ═══════════════════════════════════════════════════
-   ANIMATION VARIANTS
-   ═══════════════════════════════════════════════════ */
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (d = 0) => ({
-    opacity: 1, y: 0,
-    transition: { duration: 0.7, delay: d, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: (d = 0) => ({
-    opacity: 1,
-    transition: { duration: 0.5, delay: d },
-  }),
-};
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: (d = 0) => ({
-    opacity: 1, scale: 1,
-    transition: { duration: 0.5, delay: d, type: "spring", stiffness: 200, damping: 20 },
-  }),
-};
-const slideLeft = {
-  hidden: { opacity: 0, x: -50 },
-  visible: (d = 0) => ({
-    opacity: 1, x: 0,
-    transition: { duration: 0.7, delay: d, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-const slideRight = {
-  hidden: { opacity: 0, x: 50 },
-  visible: (d = 0) => ({
-    opacity: 1, x: 0,
-    transition: { duration: 0.7, delay: d, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
 
 /* ═══════════════════════════════════════════════════
    INTRO LOADER — Cinematic Entrance
@@ -95,19 +49,16 @@ function IntroLoader() {
           <div className="flex flex-col items-center gap-6">
             {/* Animated rings */}
             <div className="relative w-20 h-20 flex items-center justify-center">
-              {/* Outer rotating ring */}
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                 className="absolute inset-0 rounded-full border border-amber-500/20"
               />
-              {/* Inner counter ring */}
               <motion.div
                 animate={{ rotate: -360 }}
                 transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                 className="absolute inset-2 rounded-full border border-amber-500/10"
               />
-              {/* Dotted ring */}
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
@@ -156,7 +107,7 @@ function IntroLoader() {
 }
 
 /* ═══════════════════════════════════════════════════
-   FLOATING SHAPES — 3D-ish Decorative Geometry
+   FLOATING SHAPES — Decorative Geometry
    ═══════════════════════════════════════════════════ */
 function FloatingShapes({ ready }: { ready: boolean }) {
   return (
@@ -168,8 +119,6 @@ function FloatingShapes({ ready }: { ready: boolean }) {
           transition={{ duration: 1 }}
           className="absolute inset-0 pointer-events-none overflow-hidden"
         >
-          {/* ── LEFT SIDE SHAPES ── */}
-
           {/* Large rotating wireframe circle — top-left */}
           <div className="absolute top-[12%] left-[8%] anim-float-1">
             <svg width="120" height="120" viewBox="0 0 120 120" className="anim-spin-slow">
@@ -177,7 +126,7 @@ function FloatingShapes({ ready }: { ready: boolean }) {
             </svg>
           </div>
 
-          {/* Small emerald dot — top-left area */}
+          {/* Small emerald dot */}
           <div className="absolute top-[22%] left-[18%] w-2 h-2 rounded-full bg-emerald-500/50 anim-scale-pulse" />
 
           {/* Rotating square outline — left */}
@@ -206,8 +155,6 @@ function FloatingShapes({ ready }: { ready: boolean }) {
             <div className="w-16 h-16 rounded-full border border-amber-500/[0.04] anim-scale-pulse" />
           </div>
 
-          {/* ── RIGHT SIDE SHAPES ── */}
-
           {/* Orbiting dots group — top-right */}
           <div className="absolute top-[15%] right-[12%] w-[160px] h-[160px]">
             <div className="absolute inset-0 flex items-center justify-center">
@@ -222,7 +169,6 @@ function FloatingShapes({ ready }: { ready: boolean }) {
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-2 h-2 rounded-full bg-rose-500/30 anim-orbit-3" />
             </div>
-            {/* Static rings */}
             <div className="absolute inset-[10%] rounded-full border border-white/[0.02]" />
             <div className="absolute inset-[30%] rounded-full border border-white/[0.03]" />
           </div>
@@ -258,8 +204,6 @@ function FloatingShapes({ ready }: { ready: boolean }) {
               <line x1="2" y1="12" x2="22" y2="12" stroke="rgba(139,92,246,0.06)" strokeWidth="1" />
             </svg>
           </div>
-
-          {/* ── CENTER DECORATIONS ── */}
 
           {/* Large faint glow blob — center */}
           <div className="absolute top-[45%] left-[45%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-amber-500/[0.02] rounded-full blur-[120px] anim-pulse-glow" />
@@ -409,7 +353,7 @@ function Hero() {
   const { scrollYProgress } = useScroll();
   const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
   const heroY = useTransform(scrollYProgress, [0, 0.15], [0, -100]);
-  const headerRef = useRef(null);
+  const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const t = setTimeout(() => setReady(true), 1600);
@@ -421,10 +365,10 @@ function Hero() {
       ref={headerRef}
       className="relative min-h-screen flex items-center overflow-hidden"
     >
-      {/* ── LAYER 1: Solid Base ── */}
+      {/* LAYER 1: Solid Base */}
       <div className="absolute inset-0 bg-[#050506]" />
 
-      {/* ── LAYER 2: Gradient Mesh Blobs ── */}
+      {/* LAYER 2: Gradient Mesh Blobs */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[5%] -left-40 w-[600px] h-[600px] bg-amber-500/[0.06] rounded-full blur-[150px] anim-float-1" />
         <div className="absolute bottom-[5%] -right-40 w-[500px] h-[500px] bg-emerald-500/[0.04] rounded-full blur-[140px] anim-float-2" />
@@ -433,17 +377,17 @@ function Hero() {
         <div className="absolute top-[15%] right-[25%] w-[200px] h-[200px] bg-cyan-500/[0.02] rounded-full blur-[90px] anim-float-1" style={{ animationDelay: "4s" }} />
       </div>
 
-      {/* ── LAYER 3: Grid + Dot Pattern ── */}
+      {/* LAYER 3: Grid + Dot Pattern */}
       <div className="absolute inset-0 grid-pattern opacity-50 pointer-events-none" />
       <div className="absolute inset-0 dot-pattern opacity-30 pointer-events-none" />
 
-      {/* ── LAYER 4: Noise texture ── */}
+      {/* LAYER 4: Noise texture */}
       <div className="absolute inset-0 noise-overlay pointer-events-none" />
 
-      {/* ── LAYER 5: Floating Shapes ── */}
+      {/* LAYER 5: Floating Shapes */}
       <FloatingShapes ready={ready} />
 
-      {/* ── LAYER 6: Gradient Edge Lines ── */}
+      {/* LAYER 6: Gradient Edge Lines */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-amber-500/10 to-transparent" />
         <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-500/8 to-transparent" />
@@ -452,14 +396,14 @@ function Hero() {
       </div>
 
       {/* ═══════════════════════════════════════════
-         CONTENT — Left-Aligned, Cinematic
+         CONTENT
          ═══════════════════════════════════════════ */}
       <motion.div
         style={{ opacity: heroOpacity, y: heroY }}
         className="relative z-10 max-w-6xl mx-auto px-6 w-full pt-32 pb-40 sm:pt-40 sm:pb-44"
       >
         <div className="max-w-2xl">
-          {/* ── Badge ── */}
+          {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={ready ? { opacity: 1, y: 0, scale: 1 } : {}}
@@ -475,7 +419,7 @@ function Hero() {
             </span>
           </motion.div>
 
-          {/* ── Main Title — Word by Word ── */}
+          {/* Main Title */}
           <h1 className="text-[44px] sm:text-[60px] md:text-[76px] lg:text-[92px] font-black leading-[0.9] tracking-tight text-white mb-6">
             <motion.span
               initial={{ opacity: 0, y: 40 }}
@@ -511,7 +455,7 @@ function Hero() {
             </motion.span>
           </h1>
 
-          {/* ── Description ── */}
+          {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={ready ? { opacity: 1, y: 0 } : {}}
@@ -525,7 +469,7 @@ function Hero() {
             adresiyiz.
           </motion.p>
 
-          {/* ── CTA Buttons ── */}
+          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={ready ? { opacity: 1, y: 0 } : {}}
@@ -550,7 +494,7 @@ function Hero() {
             </a>
           </motion.div>
 
-          {/* ── Feature Chips ── */}
+          {/* Feature Chips */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={ready ? { opacity: 1 } : {}}
@@ -573,7 +517,7 @@ function Hero() {
             ))}
           </motion.div>
 
-          {/* ── Mini Stats Row ── */}
+          {/* Mini Stats Row */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={ready ? { opacity: 1, y: 0 } : {}}
@@ -598,7 +542,7 @@ function Hero() {
         </div>
       </motion.div>
 
-      {/* ── RIGHT SIDE — Decorative Building Icon ── */}
+      {/* RIGHT SIDE — Decorative Building Icon */}
       <motion.div
         initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
         animate={ready ? { opacity: 1, scale: 1, rotate: 0 } : {}}
@@ -624,7 +568,7 @@ function Hero() {
             </motion.div>
           </div>
 
-          {/* Floating mini cards around the icon */}
+          {/* Floating mini cards */}
           {[
             { icon: Hammer, pos: "top-0 right-4", delay: 0, color: "#f59e0b" },
             { icon: Star, pos: "top-12 -left-2", delay: 0.3, color: "#10b981" },
@@ -652,7 +596,7 @@ function Hero() {
         </div>
       </motion.div>
 
-      {/* ── Scroll Indicator ── */}
+      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={ready ? { opacity: 1 } : {}}
@@ -675,10 +619,10 @@ function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* ── Stats Marquee at Bottom ── */}
+      {/* Stats Marquee */}
       <StatsMarquee />
 
-      {/* ── Bottom Fade ── */}
+      {/* Bottom Fade */}
       <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#050506] to-transparent pointer-events-none z-[15]" />
     </section>
   );
@@ -731,7 +675,7 @@ function FixedButtons() {
 }
 
 /* ═══════════════════════════════════════════════════
-   PAGE — Only Hero, Nothing Else
+   PAGE — Only Hero
    ═══════════════════════════════════════════════════ */
 export default function Home() {
   return (
