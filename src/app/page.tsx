@@ -149,7 +149,7 @@ function Header() {
       <div className="flex justify-center pt-3 pointer-events-auto">
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="relative h-8 w-8 sm:h-10 sm:w-10 shrink-0 overflow-hidden rounded-lg">
-            <img src="/versus-logo-new.png" alt="V" className="h-full w-full object-cover" />
+            <img src="/images/salihfx-logo.png" alt="V" className="h-full w-full object-cover" />
             <div className="absolute inset-0 rounded-lg ring-1 ring-white/10" />
           </div>
           <div className="flex flex-col leading-none">
@@ -355,12 +355,12 @@ function Hero() {
             Rezervasyon
           </motion.a>
           {/* Kızılay */}
-          <motion.a href="https://maps.google.com/?q=Versus+Game+Center+Kizilay" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }} className="group flex items-center gap-2 rounded-2xl bg-white/[0.06] border border-white/[0.12] px-4 sm:px-5 py-2.5 sm:py-3 text-[11px] sm:text-[13px] font-bold text-white hover:bg-white/[0.12] transition-all duration-300">
+          <motion.a href="https://maps.google.com/?q=SalihFx+Game+Center+Çubuk" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }} className="group flex items-center gap-2 rounded-2xl bg-white/[0.06] border border-white/[0.12] px-4 sm:px-5 py-2.5 sm:py-3 text-[11px] sm:text-[13px] font-bold text-white hover:bg-white/[0.12] transition-all duration-300">
             <Navigation className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-gray-200 group-hover:text-white transition-colors" />
             Kızılay
           </motion.a>
           {/* Pursaklar */}
-          <motion.a href="https://maps.google.com/?q=Versus+Game+Center+Pursaklar" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }} className="group flex items-center gap-2 rounded-2xl bg-white/[0.06] border border-white/[0.12] px-4 sm:px-5 py-2.5 sm:py-3 text-[11px] sm:text-[13px] font-bold text-white hover:bg-white/[0.12] transition-all duration-300">
+          <motion.a href="https://maps.google.com/?q=SalihFx+Game+Center+Çubuk" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }} className="group flex items-center gap-2 rounded-2xl bg-white/[0.06] border border-white/[0.12] px-4 sm:px-5 py-2.5 sm:py-3 text-[11px] sm:text-[13px] font-bold text-white hover:bg-white/[0.12] transition-all duration-300">
             <Navigation className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-gray-200 group-hover:text-white transition-colors" />
             Pursaklar
           </motion.a>
@@ -1178,9 +1178,9 @@ function GaleriSection() {
 
         {/* ═══ INSTAGRAM ═══ */}
         <motion.div variants={slideUp} custom={0.5} className="mt-10 sm:mt-12 flex flex-col items-center justify-center gap-3">
-          <a href="https://www.instagram.com/versusgamecenterr?igsh=MTJmaGQ2bmtsaTNjZg==" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2.5 rounded-xl border border-white/[0.06] bg-white/[0.03] px-5 py-3 hover:bg-white/[0.06] transition-all duration-300">
+          <a href="https://www.instagram.com/salihfxgamecenter?igsh=MTJmaGQ2bmtsaTNjZg==" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2.5 rounded-xl border border-white/[0.06] bg-white/[0.03] px-5 py-3 hover:bg-white/[0.06] transition-all duration-300">
             <Instagram className="h-4 w-4 text-blue-400" />
-            <span className="text-[11px] sm:text-[12px] font-semibold text-gray-100">@versusgamecenterr</span>
+            <span className="text-[11px] sm:text-[12px] font-semibold text-gray-100">@salihfxgamecenter</span>
             <ArrowUpRight className="h-3.5 w-3.5 text-gray-100 group-hover:text-gray-100 transition-colors" />
           </a>
           <span className="text-[10px] text-gray-300">Daha fazlası için takip et</span>
@@ -1395,7 +1395,7 @@ function Contact() {
                     <Instagram className="h-3 w-3 text-gray-100" />
                     <span className="text-[8px] sm:text-[9px] font-bold text-gray-100 uppercase tracking-wider">Instagram</span>
                   </div>
-                  <a href="https://www.instagram.com/versusgamecenterr?igsh=MTJmaGQ2bmtsaTNjZg==" target="_blank" rel="noopener noreferrer" className="text-[11px] sm:text-[12px] text-white font-semibold hover:underline">@versusgamecenterr</a>
+                  <a href="https://www.instagram.com/salihfxgamecenter?igsh=MTJmaGQ2bmtsaTNjZg==" target="_blank" rel="noopener noreferrer" className="text-[11px] sm:text-[12px] text-white font-semibold hover:underline">@salihfxgamecenter</a>
                 </div>
               </div>
 
@@ -1422,7 +1422,7 @@ function Contact() {
                   WhatsApp
                 </motion.a>
                 <motion.a
-                  href={`https://maps.google.com/?q=Versus+Game+Center+${b.name}+Ankara`}
+                  href={`https://maps.google.com/?q=SalihFx+Game+Center+Çubuk+Ankara`}
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.03 }}
@@ -1948,7 +1948,7 @@ function Footer() {
         {/* Logo + Brand */}
         <div className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-10 text-center">
           <div className="relative mx-auto h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 shrink-0 overflow-hidden rounded-xl ring-1 ring-[#ff8c00]/20">
-            <img src="/versus-logo-new.png" alt="V" className="h-full w-full object-cover" />
+            <img src="/images/salihfx-logo.png" alt="V" className="h-full w-full object-cover" />
           </div>
           <div className="text-center">
             <p className="text-[16px] sm:text-[18px] md:text-[20px] font-black tracking-[0.2em] neon-text uppercase gallery-rgb-glow">VERSUS</p>
@@ -1996,7 +1996,7 @@ function Footer() {
           <p className="text-[12px] sm:text-[13px] md:text-[14px] font-black tracking-wider text-[#ff8c00] uppercase mb-3 sm:mb-4 text-center">Bizi Takip Edin</p>
           <div className="flex items-center justify-center gap-3 sm:gap-4">
             <motion.a
-              href="https://www.instagram.com/versusgamecenterr?igsh=MTJmaGQ2bmtsaTNjZg=="
+              href="https://www.instagram.com/salihfxgamecenter?igsh=MTJmaGQ2bmtsaTNjZg=="
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.15, y: -2 }}
@@ -2069,16 +2069,16 @@ function Footer() {
 
         {/* Instagram */}
         <div className="mb-6 sm:mb-8 text-center">
-          <a href="https://www.instagram.com/versusgamecenterr?igsh=MTJmaGQ2bmtsaTNjZg==" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 sm:gap-2 rounded-xl border border-blue-500/10 bg-blue-500/5 px-3 sm:px-4 py-2 sm:py-2.5 hover:bg-blue-500/10 transition-colors">
+          <a href="https://www.instagram.com/salihfxgamecenter?igsh=MTJmaGQ2bmtsaTNjZg==" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 sm:gap-2 rounded-xl border border-blue-500/10 bg-blue-500/5 px-3 sm:px-4 py-2 sm:py-2.5 hover:bg-blue-500/10 transition-colors">
             <Instagram className="h-3 w-3 sm:h-4 sm:w-4 text-blue-400" />
-            <span className="text-[10px] sm:text-[11px] md:text-[12px] font-semibold text-gray-100">@versusgamecenterr</span>
+            <span className="text-[10px] sm:text-[11px] md:text-[12px] font-semibold text-gray-100">@salihfxgamecenter</span>
           </a>
         </div>
 
         {/* Copyright */}
         <div className="text-center">
           <p className="text-[8px] sm:text-[9px] text-gray-300">
-            © {new Date().getFullYear()} Versus Game Center. Tüm hakları saklıdır.
+            © {new Date().getFullYear()} SalihFx Game Center. Tüm hakları saklıdır.
           </p>
           <p className="text-[7px] sm:text-[8px] text-gray-400 mt-0.5">
             Premium Gaming Deneyimi — Ankara
@@ -2617,14 +2617,14 @@ export default function Home() {
       </section>
       <NeonMarquee reverse />
       <Contact />
-      <RgbGameStrip image="/images/games/rgb/hallway-neon.png" label="Versus Corridor" />
+      <RgbGameStrip image="/images/games/rgb/hallway-neon.png" label="SalihFx Koridoru" />
       <WorkingHoursSection />
       {/* Separator — Emerald */}
       <div className="relative z-10 mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 sm:px-6"><div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent my-2" /></div>
       <RezervasyonSection />
       <RgbGameStrip image="/images/games/rgb/monitor-glow.png" label="240Hz Gaming" />
       <FAQSection />
-      <RgbGameStrip image="/images/games/rgb/game-center-exterior.png" label="Versus Game Center" />
+      <RgbGameStrip image="/images/games/rgb/game-center-exterior.png" label="SalihFx Game Center" />
       {/* Separator — Violet */}
       <div className="relative z-10 mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 sm:px-6"><div className="h-px bg-gradient-to-r from-transparent via-violet-500/20 to-transparent my-2" /></div>
       <PricingSection />
