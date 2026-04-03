@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,25 +16,29 @@ const geistMono = Geist_Mono({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export const metadata: Metadata = {
-  title: "Versus Game Center | Premium Oyun & E-Sports Deneyimi",
+  title: "Versus Game Center | Premium E-Spor & Gaming Deneyimi",
   description:
-    "Yüksek performanslı gaming PC'ler, VR deneyimi, PlayStation 5, turnuvalar ve daha fazlası. Versus Game Center'da e-sports tutkusunu yaşa!",
+    "Ankara'nın premium gaming deneyimi. E-spor, yarış simülatörü ve VIP odalar.",
   keywords: [
-    "Versus Game Center",
-    "oyun merkezi",
-    "internet kafe",
-    "gaming cafe",
-    "e-sports",
-    "turnuva",
-    "VR oyun",
-    "PC gaming",
+    "Versus",
+    "Game Center",
+    "E-spor",
+    "Gaming",
+    "Ankara",
+    "Kızılay",
+    "Pursaklar",
   ],
+  authors: [{ name: "Versus Game Center" }],
   openGraph: {
-    title: "Versus Game Center | Premium Oyun & E-Sports Deneyimi",
-    description: "Yüksek performanslı gaming PC'ler, VR deneyimi ve e-sports turnuvaları.",
+    title: "Versus Game Center",
+    description:
+      "Ankara'nın premium gaming deneyimi. E-spor, yarış simülatörü ve VIP odalar.",
+    siteName: "Versus Game Center",
     type: "website",
   },
 };
@@ -47,16 +51,33 @@ export default function RootLayout({
   return (
     <html lang="tr" className="dark" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        style={{
+          backgroundImage: "url('/images/bg-main.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
+          backgroundColor: "#000000",
+        }}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
+        {/* Dark overlay */}
+        <div
+          aria-hidden="true"
+          className="fixed inset-0 z-[1] pointer-events-none bg-black/35"
+        />
+        {/* RGB Logo Glow */}
+        <div
+          aria-hidden="true"
+          className="fixed top-0 left-0 right-0 z-[1] pointer-events-none flex justify-center"
+          style={{ height: '45vh' }}
         >
+          <div className="rgb-logo-glow" />
+        </div>
+        <div className="relative z-[2]">
           {children}
-        </ThemeProvider>
+        </div>
+        <Toaster />
       </body>
     </html>
   );
